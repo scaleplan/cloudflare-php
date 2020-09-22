@@ -59,7 +59,7 @@ class DNS implements API
         if (is_numeric($priority)) {
             $options['priority'] = (int)$priority;
         }
-        
+
         if (!empty($data)) {
             $options['data'] = $data;
         }
@@ -84,7 +84,8 @@ class DNS implements API
         int $perPage = 20,
         string $order = '',
         string $direction = '',
-        string $match = 'all'
+        string $match = 'all',
+        bool $proxied = null
     ): \stdClass {
         $query = [
             'page' => $page,
@@ -110,6 +111,10 @@ class DNS implements API
 
         if (!empty($direction)) {
             $query['direction'] = $direction;
+        }
+
+        if (null !== $proxied) {
+            $query['proxied'] = $proxied;
         }
 
         $user = $this->adapter->get('zones/' . $zoneID . '/dns_records', $query);
